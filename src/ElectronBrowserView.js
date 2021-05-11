@@ -15,8 +15,11 @@ import { changableProps, events, methods, props, webPreferences, resizeEvents, e
 const win = remote.getCurrentWindow()
 
 export default class ElectronBrowserView extends Component {
-  view = null;
-  track = false;
+  constructor(props) {
+    super(props)
+    this.view = null
+    this.track = false
+  }
 
   componentDidMount () {
     const options = {
@@ -74,7 +77,7 @@ export default class ElectronBrowserView extends Component {
       if (!this.view.isDestroyed()) {
         this.view.webContents.on(event, (...eventArgs) => {
           const propName = camelCase(`on-${event}`)
-  
+
           // Proxy events to listeners we got as props
           if (this.props[propName]) this.props[propName](...eventArgs)
         })
